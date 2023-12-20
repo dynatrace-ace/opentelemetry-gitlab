@@ -1,0 +1,14 @@
+stages:
+    - otel-exporter
+
+otel-exporter:
+ rules:
+   - when: always
+ image:
+   name: dynatraceace/dynatrace-gitlab-exporter-otel:0.0.1
+ stage: otel-exporter
+ variables:
+   CI_PARENT_PIPELINE: "$CI_PIPELINE_ID"
+   GLAB_CONVERT_TO_TIMESTAMP: "True"
+ script:
+   - python3 -u exporter.py

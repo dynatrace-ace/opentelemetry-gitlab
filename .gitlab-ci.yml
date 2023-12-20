@@ -1,0 +1,21 @@
+stages:
+  - somestage
+  - otel-exporter
+
+Some Job:
+  image: docker:20.10.16
+  stage: somestage
+  script:
+    - sleep 10
+
+otel-exporter:
+  rules:
+    - when: always
+  stage: .post
+  inherit:
+    variables: true
+  variables:
+    CI_PARENT_PIPELINE: $CI_PIPELINE_ID
+  trigger:
+    include:
+      - local: otel-exporter.yml
